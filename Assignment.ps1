@@ -29,8 +29,6 @@ for (($i = 0); $i -lt $initialArr.Length; $i++){
     }
 }
 
-#$charArr
-
 #get format type
 if ($args[1].ToString().ToLower() -eq 'alpha' -or $args[1].ToString().ToLower() -eq 'numeric' -or $args[1].ToString().ToLower() -eq 'both'){
     $formatType = $args[1]
@@ -53,6 +51,10 @@ if ($args[2] -eq 'ascending' -or $args[2] -eq 'descending'){
 
 #Format outputValue according to user
 if ($formatType -eq 'both'){
+    if ($charArr.Length -lt 1 -or $numsArr.Length -lt 1){
+        Write-Output "There are not both alphabetic values and numeric values in this array to sort"
+        exit
+    }
     if ($sortType){
         #setup ascending sorting and output
         $charArr = $charArr | Sort-Object
@@ -65,6 +67,10 @@ if ($formatType -eq 'both'){
         [string]$outputValue = ($numsArr -join ", ") + ", " + ($charArr -join ", ")
     }
 }elseif ($formatType -eq 'alpha'){
+    if ($charArr.Length -lt 1){
+        Write-Output "There are no alphabetic values in this array to sort"
+        exit
+    }
     if ($sortType){
         #setup ascending sorting and output
         $charArr = $charArr | Sort-Object
@@ -75,6 +81,10 @@ if ($formatType -eq 'both'){
         [string]$outputValue = $charArr -join ", "
     }
 }else{
+    if ($numsArr.Length -lt 1){
+        Write-Output "There are no numeric values in this array to sort"
+        exit
+    }
     if ($sortType){
         #setup ascending sorting and output
         $numsArr = $numsArr | Sort-Object
